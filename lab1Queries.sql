@@ -64,7 +64,7 @@ CREATE TRIGGER SessionHours
             EXCEPTION
                 WHEN NO_DATA_FOUND THEN
                 BEGIN
-                    DBMS_OUTPUT.PUT_LINE('Session hours a vaild after insert.');
+                    DBMS_OUTPUT.PUT_LINE('Total session hours is vaild after insert.');
                 END;
         END;
 /
