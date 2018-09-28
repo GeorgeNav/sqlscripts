@@ -44,22 +44,24 @@ SELECT DISTINCT Tutor FROM vw_Sessions;
 DROP TRIGGER SessionHours;
 
 /* FIXME: Found this solution online, but does not run */
-/* INSTEAD OF key word can only be used on views? */
+/* INSTEAD OF key word can only be used on views */
 CREATE TRIGGER SessionHours
     INSTEAD OF INSERT ON vw_Sessions
+    BEGIN
+        DECLARE
+            currentMonth INT;
+            totalHours REAL;
         BEGIN
-            SET NOCOUNT ON; -- TODO: Find out the meaning of this
-            DECLARE @currentMonth INT
-            DECLARE @totalHours REAL
-
-            SET @currentMonth = EXTRACT(YEAR FROM INSERT(Datee))
-            SELECT @totalHours = SUM(Sessions)
-            FROM Tutor
-            WHERE Month = @currentMonth
-
-            IF @totalHours > 120
+            currentMonth := EXTRACT(MONTH FROM Datee)
+            -- FIXME: Syntax error from this point on
+            totalHours := 0.5 * COUNT(*)FROM vw_Sessions
+                WHERE MONTH = currentMonth
+            IF totalHours > 120
                 BEGIN
-                    RAISEERROR('Cant work more than 60 Hours')
+                    RAISEERROR('This tutor cannot work more than 60 Hours')
                 END
-        END;
+        END    
+    END;
 /
+
+

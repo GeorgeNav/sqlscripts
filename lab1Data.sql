@@ -75,7 +75,7 @@ CREATE TABLE Sessions (
 CREATE TABLE Requests (
     RequestKey NUMBER(10) NOT NULL ,
     RequestDate DATE,
-    CourseKey CHAR(6) ,
+    CourseKey CHAR(6),
     RequestStatus CHAR(45),
     StudentKey NUMBER(10) ,
     PRIMARY KEY (RequestKey) );
