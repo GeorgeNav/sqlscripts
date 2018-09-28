@@ -48,11 +48,11 @@ DROP TRIGGER SessionHours;
 CREATE TRIGGER SessionHours
     INSTEAD OF INSERT ON vw_Sessions
         BEGIN
-            SET NOCOUNT ON;
+            SET NOCOUNT ON; -- TODO: Find out the meaning of this
             DECLARE @currentMonth INT
             DECLARE @totalHours REAL
 
-            SET @currentMonth = EXTRACT(YEAR FROM INSERT(Date))
+            SET @currentMonth = EXTRACT(YEAR FROM INSERT(Datee))
             SELECT @totalHours = SUM(Sessions)
             FROM Tutor
             WHERE Month = @currentMonth
