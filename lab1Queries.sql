@@ -40,28 +40,31 @@ CREATE OR REPLACE VIEW vw_Sessions AS
 /* DONE: Question f */
 SELECT DISTINCT Tutor FROM vw_Sessions;
 
-/* Question g */
+/* DONE: Question g */
 DROP TRIGGER SessionHours;
-
-/* FIXME: Found this solution online, but does not run */
-/* INSTEAD OF key word can only be used on views */
 CREATE TRIGGER SessionHours
-    INSTEAD OF INSERT ON vw_Sessions
-    BEGIN
+    BEFORE INSERT ON Sessions
+    REFERENCING NEW AS new
+    FOR EACH ROW
         DECLARE
-            currentMonth INT;
-            totalHours REAL;
+            sessionsSoFar INTEGER;
+            projectedHours REAL;
         BEGIN
-            currentMonth := EXTRACT(MONTH FROM Datee)
-            -- FIXME: Syntax error from this point on
-            totalHours := 0.5 * COUNT(*)FROM vw_Sessions
-                WHERE MONTH = currentMonth
-            IF totalHours > 120
+            sessionsSoFar := 0;
+            SELECT TotalSessions INTO sessionsSoFar
+                FROM ( SELECT TutorKey, COUNT(EXTRACT(MONTH FROM SessionDateKey))
+                    AS TotalSessions
+                        FROM Sessions
+                            WHERE EXTRACT(MONTH FROM SessionDateKey) = EXTRACT(MONTH FROM :new.SessionDateKey) AND TutorKey = :new.TutorKey
+                                GROUP BY TutorKey);
+            projectedHours := 0.5 * (sessionsSoFar + 1); -- +1 since checking if this new session will put the tutor over the threshold
+            IF (projectedHours > 60) THEN
+                RAISE_APPLICATION_ERROR(-20001, 'This tutor cannot work more than 60 Hours');
+            END IF;
+            EXCEPTION
+                WHEN NO_DATA_FOUND THEN
                 BEGIN
-                    RAISEERROR('This tutor cannot work more than 60 Hours')
-                END
-        END    
-    END;
+                    DBMS_OUTPUT.PUT_LINE('Session hours a vaild after insert.');
+                END;
+        END;
 /
-
-
