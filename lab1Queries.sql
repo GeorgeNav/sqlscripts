@@ -26,14 +26,14 @@ SELECT SE.TutorKey AS TotalSessions
         HAVING COUNT(*) < 4;
 
 /* Question e */
+-- Date is a keyword. Cannot use it as a column name
 DROP VIEW vw_Sessions;
-CREATE VIEW vw_Sessions() AS
+CREATE OR REPLACE VIEW vw_Sessions AS
     SELECT
-        T.TutorLastName AS Tutor, 
-        S.StudentKey AS Student,
-        SE.SessionDateKey AS DATE,
-        SE.SessionTimeKey AS TIME,
+        S.TutorLastName AS Tutor,
+        SE.StudentKey AS Student,
+        SE.SessionDateKey AS Datee,
+        SE.SessionTimeKey AS Time,
         SE.CourseKey AS Course
-    FROM Student S, Sessions SE, Tutor T;
-
+        FROM Sessions SE, Tutor S;
 SELECT * FROM vw_Sessions;

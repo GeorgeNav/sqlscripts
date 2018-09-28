@@ -39,7 +39,7 @@ CREATE TABLE TutorCourse (
     FOREIGN KEY (TutorKey) REFERENCES Tutor (TutorKey),
     FOREIGN KEY (CourseKey) REFERENCES Course (CourseKey) );
 
-create table Students ( 
+CREATE TABLE Students ( 
     StudentKey NUMBER(10) NOT NULL, 
     StudentFirstName CHAR(20), 
     StudentLastName CHAR(20), 
