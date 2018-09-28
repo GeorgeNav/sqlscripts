@@ -21,11 +21,12 @@ SELECT COUNT(*) AS TotalOver25
 -- Returns Empty Set. Will need to confirm.
 SELECT SE.TutorKey AS TotalSessions
     FROM Sessions SE
-        WHERE SessionStatus = 'C'
+        WHERE SE.SessionStatus = 'C'
     GROUP BY SE.TutorKey
         HAVING COUNT(*) < 4;
 
 /* Question e */
+DROP VIEW vw_Sessions;
 CREATE VIEW vw_Sessions() AS
     SELECT
         T.TutorLastName AS Tutor, 
