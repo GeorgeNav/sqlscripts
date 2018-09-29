@@ -44,7 +44,7 @@ SELECT DISTINCT Tutor FROM vw_Sessions;
 DROP TRIGGER SessionHours;
 CREATE TRIGGER SessionHours
     BEFORE INSERT ON Sessions
-    REFERENCING NEW AS new
+    REFERENCING NEW AS n
     FOR EACH ROW
         DECLARE
             sessionsSoFar INTEGER;
@@ -56,12 +56,13 @@ CREATE TRIGGER SessionHours
                 -- SELECT TutorKey, COUNT(EXTRACT(MONTH FROM SessionDateKey)) AS MonthCount 
                 --   This is the table created with fields TutorKey, MonthCount
                 --      COUNT(EXTRACT(MONTH FROM SessionDateKey)) field gives the count of session tuples and is renamed to MonthCount with AS keyword
-                FROM ( SELECT COUNT(EXTRACT(MONTH FROM SessionDateKey)) AS MonthCount FROM Sessions
+                FROM ( SELECT TutorKey, COUNT(EXTRACT(MONTH FROM SessionDateKey)) AS MonthCount FROM Sessions
                         -- This WHERE part cecks if the Sessions current row..
                         -- has the same month value as the one being inserted AND 
                         -- has the same TutorKey value as the one being inserted
                         --   this makes sure that the only tuples used are ones that contain the same TutorKey value as the new TutorKey 
-                        WHERE EXTRACT(MONTH FROM SessionDateKey) = EXTRACT(MONTH FROM :new.SessionDateKey) AND TutorKey = :new.TutorKey); -- Groups 
+                        WHERE EXTRACT(MONTH FROM SessionDateKey) = EXTRACT(MONTH FROM :n.SessionDateKey) AND TutorKey = :n.TutorKey
+                        GROUP BY TutorKey); -- Groups
             projectedHours := 0.5 * (sessionsSoFar + 1); -- +1 takes into account the new tuple being added
             IF (projectedHours > 60) THEN
                 RAISE_APPLICATION_ERROR(-20000, 'This tutor cannot work more than 60 Hours');
@@ -72,4 +73,19 @@ CREATE TRIGGER SessionHours
                     DBMS_OUTPUT.PUT_LINE('Total session hours is vaild after insert.');
                 END;
         END;
+/
+
+/* FIXME: Question h */
+-- Create a stored procedure usp_StudentLogin that tests if a student exists
+-- After the stored procedure name, you list all the parameters for the procedure (Parameters are values the user must enter when they execute the procedure. In this case, you will just need the StudentKey)
+-- After the parameters, the ‘ AS’ keyword signals the start of the content of the procedure
+    -- The BEGIN and END keywords mark the beginning and ending of the true block
+        -- If the student record does exist, it will return the student’s last name
+        -- Else If the student doesn’t exist, the stored procedure won’t do anything
+    -- The application can test to see whether the name is returned.
+CREATE OR REPLACE PROCEDURE usp_StudentLogin ( StudentKey NUMBER(10) ) AS -- Tests if a student exists
+    BEGIN
+        SELECT StudentLastName FROM Students S
+            WHERE S.StudentKey = StudentKey;
+    END;
 /
