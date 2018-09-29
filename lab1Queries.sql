@@ -62,7 +62,7 @@ CREATE TRIGGER SessionHours
                         -- has the same TutorKey value as the one being inserted
                         --   this makes sure that the only tuples used are ones that contain the same TutorKey value as the new TutorKey 
                         WHERE EXTRACT(MONTH FROM SessionDateKey) = EXTRACT(MONTH FROM :n.SessionDateKey) AND TutorKey = :n.TutorKey
-                        GROUP BY TutorKey); -- Groups
+                        GROUP BY TutorKey); -- Each tutor has their own session count
             projectedHours := 0.5 * (sessionsSoFar + 1); -- +1 takes into account the new tuple being added
             IF (projectedHours > 60) THEN
                 RAISE_APPLICATION_ERROR(-20000, 'This tutor cannot work more than 60 Hours');
