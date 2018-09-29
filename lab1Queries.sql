@@ -1,8 +1,6 @@
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
     -- -- -- -- -- --  Queries for LAB 1 -- -- -- -- -- -- 
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-DROP VIEW vw_Sessions;
-DROP TRIGGER SessionHours;
 
 /* DONE: Question a */
 SELECT S.StudentFirstName, S.StudentLastName, S.StudentGender 
@@ -29,19 +27,22 @@ SELECT SE.TutorKey AS TotalSessions
 
 /* DONE: Question e */
 -- Date is a keyword. Cannot use it as a column name
+DROP VIEW vw_Sessions;
 CREATE OR REPLACE VIEW vw_Sessions AS
     SELECT
-        S.TutorLastName AS Tutor,
+        T.TutorLastName AS Tutor,
         SE.StudentKey AS Student,
         SE.SessionDateKey AS Datee,
         SE.SessionTimeKey AS Time,
         SE.CourseKey AS Course
-        FROM Sessions SE, Tutor S;
+        FROM Sessions SE, Tutor T;
+SELECT * FROM Sessions;
 
 /* DONE: Question f */
 SELECT DISTINCT Tutor FROM vw_Sessions;
 
 /* DONE: Question g */
+DROP TRIGGER SessionHours;
 CREATE TRIGGER SessionHours
     BEFORE INSERT ON Sessions
     REFERENCING NEW AS n
