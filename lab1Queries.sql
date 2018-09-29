@@ -51,15 +51,20 @@ CREATE TRIGGER SessionHours
             projectedHours REAL;
         BEGIN
             sessionsSoFar := 0;
-            SELECT TotalSessions INTO sessionsSoFar
-                FROM ( SELECT TutorKey, COUNT(EXTRACT(MONTH FROM SessionDateKey))
-                    AS TotalSessions
-                        FROM Sessions
-                            WHERE EXTRACT(MONTH FROM SessionDateKey) = EXTRACT(MONTH FROM :new.SessionDateKey) AND TutorKey = :new.TutorKey
-                                GROUP BY TutorKey);
-            projectedHours := 0.5 * (sessionsSoFar + 1); -- +1 since checking if this new session will put the tutor over the threshold
+            SELECT MonthCount INTO sessionsSoFar -- SELECT INTO Statement retrieves data from database tables and assigns the data into a variable or collection. In this case a variable (sessionsSoFar)
+                -- FROM is refering to a table created
+                -- SELECT TutorKey, COUNT(EXTRACT(MONTH FROM SessionDateKey)) AS MonthCount 
+                --   This is the table created with fields TutorKey, MonthCount
+                --      COUNT(EXTRACT(MONTH FROM SessionDateKey)) field gives the count of session tuples and is renamed to MonthCount with AS keyword
+                FROM ( SELECT COUNT(EXTRACT(MONTH FROM SessionDateKey)) AS MonthCount FROM Sessions
+                        -- This WHERE part cecks if the Sessions current row..
+                        -- has the same month value as the one being inserted AND 
+                        -- has the same TutorKey value as the one being inserted
+                        --   this makes sure that the only tuples used are ones that contain the same TutorKey value as the new TutorKey 
+                        WHERE EXTRACT(MONTH FROM SessionDateKey) = EXTRACT(MONTH FROM :new.SessionDateKey) AND TutorKey = :new.TutorKey); -- Groups 
+            projectedHours := 0.5 * (sessionsSoFar + 1); -- +1 takes into account the new tuple being added
             IF (projectedHours > 60) THEN
-                RAISE_APPLICATION_ERROR(-20001, 'This tutor cannot work more than 60 Hours');
+                RAISE_APPLICATION_ERROR(-20000, 'This tutor cannot work more than 60 Hours');
             END IF;
             EXCEPTION
                 WHEN NO_DATA_FOUND THEN
