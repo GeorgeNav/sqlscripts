@@ -76,7 +76,7 @@ CREATE TRIGGER SessionHours
         END;
 /
 
-/* FIXME: Question h */
+/* DONE: Question h */
 -- Create a stored procedure usp_StudentLogin that tests if a student exists
 -- After the stored procedure name, you list all the parameters for the procedure (Parameters are values the user must enter when they execute the procedure. In this case, you will just need the StudentKey)
 -- After the parameters, the ‘ AS’ keyword signals the start of the content of the procedure
@@ -84,9 +84,14 @@ CREATE TRIGGER SessionHours
         -- If the student record does exist, it will return the student’s last name
         -- Else If the student doesn’t exist, the stored procedure won’t do anything
     -- The application can test to see whether the name is returned.
-CREATE OR REPLACE PROCEDURE usp_StudentLogin ( StudentKey NUMBER(10) ) AS -- Tests if a student exists
+CREATE OR REPLACE PROCEDURE usp_StudentLogin ( StudentKey NUMBER ) AS -- Tests if a student exists
+    val NUMBER;
     BEGIN
-        SELECT StudentLastName FROM Students S
-            WHERE S.StudentKey = StudentKey;
+        SELECT S.StudentLastName INTO val FROM Students S
+            WHERE S.StudentKey = StudentKey
+                GROUP BY StudentKey;
+        DBMS_OUTPUT.PUT_LINE(val);
     END;
 /
+
+-- EXECUTE usp_StudentLogin ('990001000'); -- TODO: Test procedure 
