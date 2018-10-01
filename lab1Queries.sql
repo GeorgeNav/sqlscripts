@@ -18,7 +18,6 @@ SELECT COUNT(*) AS TotalOver25
         WHERE StudentAge > '25';
 
 /* DONE: Question d */
--- Returns Empty Set. Will need to confirm.
 SELECT SE.TutorKey AS TotalSessions
     FROM Sessions SE
         WHERE SE.SessionStatus = 'C'
@@ -26,17 +25,16 @@ SELECT SE.TutorKey AS TotalSessions
         HAVING COUNT(*) < 4;
 
 /* DONE: Question e */
--- Date is a keyword. Cannot use it as a column name
 DROP VIEW vw_Sessions;
 CREATE OR REPLACE VIEW vw_Sessions AS
     SELECT
         T.TutorLastName AS Tutor,
         SE.StudentKey AS Student,
-        SE.SessionDateKey AS Datee,
+        SE.SessionDateKey AS Datee, -- Date is a keyword. Cannot use it as a column name
         SE.SessionTimeKey AS Time,
         SE.CourseKey AS Course
         FROM Sessions SE, Tutor T;
-SELECT * FROM Sessions;
+SELECT * FROM vw_Sessions;
 
 /* DONE: Question f */
 SELECT DISTINCT Tutor FROM vw_Sessions;
@@ -94,4 +92,4 @@ CREATE OR REPLACE PROCEDURE usp_StudentLogin ( StudentKey NUMBER ) AS -- Tests i
     END;
 /
 
--- EXECUTE usp_StudentLogin ('990001000'); -- TODO: Test procedure 
+EXECUTE usp_StudentLogin ('990001010'); -- TODO: Test procedure
