@@ -33,7 +33,7 @@ CREATE OR REPLACE VIEW vw_Sessions AS
         SE.SessionDateKey AS Datee, -- Date is a keyword. Cannot use it as a column name
         SE.SessionTimeKey AS Time,
         SE.CourseKey AS Course
-        FROM Sessions SE, Tutor T;
+        FROM Sessions SE NATURAL JOIN Tutor T;
 SELECT * FROM vw_Sessions;
 
 /* DONE: Question f */
