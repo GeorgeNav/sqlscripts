@@ -65,7 +65,7 @@ CREATE TABLE StudentCourse (
 --
 CREATE TABLE Sessions (
     SessionDateKey DATE NOT NULL,
-    SessionTimeKey DATE NOT NULL,
+    SessionTimeKey CHAR(5) NOT NULL,
     TutorKey NUMBER(10) NOT NULL,
     CourseKey CHAR(6),
     StudentKey NUMBER(10) NULL,
@@ -123,20 +123,20 @@ INSERT INTO RequestNote VALUES ( '10/JAN/10 10:00:00', '1001', 'No students avai
 INSERT INTO Requests VALUES( '1001', '05/JAN/10', 'ITC226', 'Active','990001010' );
 
 -- Sessions
-INSERT INTO Sessions VALUES ( TO_DATE('10/20/2009', 'mm/dd/yyyy'), TO_DATE('14:00', 'hh24:mi'),'980010001','WEB110','990001000','C','CSS' );
-INSERT INTO Sessions VALUES(TO_DATE( '10/20/2009', 'mm/dd/yyyy'), TO_DATE('13:00', 'hh24:mi'),'980010003','ITC110','990001000','C','For next loop' );
-INSERT INTO Sessions VALUES(TO_DATE( '11/20/2009', 'mm/dd/yyyy'),TO_DATE('10:30', 'hh24:mi'),'980010001','ITC220','990001002','C','Relations' );
-INSERT INTO Sessions VALUES(TO_DATE( '11/5/2009', 'mm/dd/yyyy'),TO_DATE('10:00', 'hh24:mi'),'980010001','ITC220',NULL,'NS',NULL );
-INSERT INTO Sessions VALUES(TO_DATE( '11/10/2009', 'mm/dd/yyyy'),TO_DATE('13:00', 'hh24:mi'),'980010004','MAT107','990001004','C','Binary Numbers' );
-INSERT INTO Sessions VALUES(TO_DATE( '11/10/2009', 'mm/dd/yyyy'),TO_DATE('14:00', 'hh24:mi'),'980010001','WEB110','990001000','C','Web Forms' );
-INSERT INTO Sessions VALUES(TO_DATE( '01/15/2010', 'mm/dd/yyyy'),TO_DATE('9:30', 'hh24:mi'),'980010002','ITC255','990001000','C','Use csases' );
-INSERT INTO Sessions VALUES(TO_DATE( '01/20/2010', 'mm/dd/yyyy'),TO_DATE('11:00', 'hh24:mi'),'980010002','ENG211','990001003','C','Document structure' );
-INSERT INTO Sessions VALUES(TO_DATE( '01/22/2010', 'mm/dd/yyyy'),TO_DATE('14:00', 'hh24:mi'),'980010004','MAT107','990001005','NS',NULL );
-INSERT INTO Sessions VALUES(TO_DATE( '02/05/2010', 'mm/dd/yyyy'),TO_DATE('10:30', 'hh24:mi'),'980010002','ITC255','990001000','C','Feasibility' );
-INSERT INTO Sessions VALUES(TO_DATE( '02/10/2010', 'mm/dd/yyyy'),TO_DATE('13:30', 'hh24:mi'),'980010004','MAT107',NULL,NULL,NULL );
-INSERT INTO Sessions VALUES(TO_DATE( '02/10/2010', 'mm/dd/yyyy'),TO_DATE('14:00', 'hh24:mi'),'980010004','MAT107',NULL,NULL,NULL );
-INSERT INTO Sessions VALUES(TO_DATE( '02/13/2010', 'mm/dd/yyyy'),TO_DATE('10:00', 'hh24:mi'),'980010002','ITC255',NULL,NULL,NULL );
-INSERT INTO Sessions VALUES(TO_DATE( '02/14/2010', 'mm/dd/yyyy'),TO_DATE('11:00', 'hh24:mi'),'980010002','ENG211',NULL,NULL,NULL );
+INSERT INTO Sessions VALUES ( TO_DATE('10/20/2009', 'mm/dd/yyyy'), '14:00', '980010001','WEB110','990001000','C','CSS' );
+INSERT INTO Sessions VALUES( TO_DATE( '10/20/2009', 'mm/dd/yyyy'), '13:00', '980010003','ITC110','990001000','C','For next loop' );
+INSERT INTO Sessions VALUES( TO_DATE( '11/20/2009', 'mm/dd/yyyy'), '10:30', '980010001','ITC220','990001002','C','Relations' );
+INSERT INTO Sessions VALUES( TO_DATE( '11/5/2009', 'mm/dd/yyyy'), '10:00', '980010001','ITC220',NULL,'NS',NULL );
+INSERT INTO Sessions VALUES( TO_DATE( '11/10/2009', 'mm/dd/yyyy'), '13:00', '980010004','MAT107','990001004','C','Binary Numbers' );
+INSERT INTO Sessions VALUES( TO_DATE( '11/10/2009', 'mm/dd/yyyy'), '14:00', '980010001','WEB110','990001000','C','Web Forms' );
+INSERT INTO Sessions VALUES( TO_DATE( '01/15/2010', 'mm/dd/yyyy'), '09:30', '980010002','ITC255','990001000','C','Use csases' );
+INSERT INTO Sessions VALUES( TO_DATE( '01/20/2010', 'mm/dd/yyyy'), '11:00', '980010002','ENG211','990001003','C','Document structure' );
+INSERT INTO Sessions VALUES( TO_DATE( '01/22/2010', 'mm/dd/yyyy'), '14:00', '980010004','MAT107','990001005','NS',NULL );
+INSERT INTO Sessions VALUES( TO_DATE( '02/05/2010', 'mm/dd/yyyy'), '10:30', '980010002','ITC255','990001000','C','Feasibility' );
+INSERT INTO Sessions VALUES( TO_DATE( '02/10/2010', 'mm/dd/yyyy'), '13:30', '980010004','MAT107',NULL,NULL,NULL );
+INSERT INTO Sessions VALUES( TO_DATE( '02/10/2010', 'mm/dd/yyyy'), '14:00', '980010004','MAT107',NULL,NULL,NULL );
+INSERT INTO Sessions VALUES( TO_DATE( '02/13/2010', 'mm/dd/yyyy'), '10:00', '980010002','ITC255',NULL,NULL,NULL );
+INSERT INTO Sessions VALUES( TO_DATE( '02/14/2010', 'mm/dd/yyyy'), '11:00', '980010002','ENG211',NULL,NULL,NULL );
 
 -- Students
 INSERT INTO Students VALUES( '990001000', 'Laura', 'Peterson', 'NULL', '2065559318', 'F','23','True','False','Caucasian' );
