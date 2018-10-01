@@ -70,7 +70,9 @@ CREATE TABLE Sessions (
     CourseKey CHAR(6),
     StudentKey NUMBER(10) NULL,
     SessionStatus CHAR(45),
-    SessionMaterialCovered CHAR(45) );
+    SessionMaterialCovered CHAR(45),
+    PRIMARY KEY(SessionDateKey, SessionTimeKey),
+    FOREIGN KEY(TutorKey) REFERENCES Tutor );
 
 CREATE TABLE Requests (
     RequestKey NUMBER(10) NOT NULL ,
