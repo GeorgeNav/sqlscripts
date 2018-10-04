@@ -1,6 +1,9 @@
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
     -- -- -- -- -- --  Queries for LAB 1 -- -- -- -- -- -- 
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+DROP VIEW vw_Sessions;
+DROP TRIGGER SessionHours;
+DROP PROCEDURE usp_StudentLogin;
 
 /* DONE: Question a */
 SELECT S.StudentFirstName, S.StudentLastName, S.StudentGender 
@@ -40,7 +43,6 @@ SELECT * FROM vw_Sessions;
 SELECT DISTINCT Tutor FROM vw_Sessions;
 
 /* DONE: Question g */
-DROP TRIGGER SessionHours;
 CREATE TRIGGER SessionHours
     BEFORE INSERT ON Sessions
     REFERENCING NEW AS n
